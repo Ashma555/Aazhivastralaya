@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ff6b6b" />
+  <title>Aazhi Vastralaya • Ethnic Wear Boutique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- Design Tokens ---------- */
+    :root {
+      --bg-1: #ff8a8a;
+      --bg-2: #ffd28e;
+      --bg-3: #7dd3fc;
+      --bg-4: #b892ff;
+      --surface: 255,255,255; /* for rgba */
+      --text: 32, 32, 32;
+      --muted: 98, 98, 98;
+      --brand: #ff6b6b;
+      --brand-2: #ff9a3c;
+      --accent: #25D366; /* WhatsApp */
+      --card-shadow: 0 10px 25px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.05);
+      --radius: 16px;
+    }
+
+    /* Calm theme (toggleable) */
+    body[data-theme="calm"] {
+      --bg-1: #8ec5fc;
+      --bg-2: #e0c3fc;
+      --bg-3: #a1ffce;
+      --bg-4: #faffd1;
+      --brand: #6c63ff;
+      --brand-2: #00bfa6;
+    }
+
+    /* ---------- Base ---------- */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: rgb(var(--text));
+      background: #0b0b0b; /* fallback while gradient paints */
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    /* ---------- Animated Background Stack ---------- */
+    .bg-stack { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+    /* Animated multi-stop gradient */
+    .bg-gradient {
+      position: absolute; inset: -10% -10% -10% -10%;
+      background: linear-gradient(120deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
+      background-size: 400% 400%;
+      filter: saturate(110%);
+      animation: gradientShift 24s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Subtle dotted pattern overlay */
+    .bg-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(rgba(255,255,255,.25) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mix-blend-mode: overlay;
+      opacity: .4;
+    }
+
+    /* Soft floating blobs */
+    .blob {
+      position: absolute; width: 40vmax; height: 40vmax;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), rgba(255,255,255,0));
+      filter: blur(60px) saturate(140%);
+      opacity: .5;
+      transform: translateZ(0);
+      animation: blobFloat 38s ease-in-out infinite;
+    }
+    .blob.b1 { top: -10vmax; left: -6vmax; }
+    .blob.b2 { bottom: -12vmax; right: -8vmax; animation-delay: -12s; }
+    @keyframes blobFloat {
+      0% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(5vmax, -2vmax) scale(1.08) rotate(2deg); }
+      66% { transform: translate(-3vmax, 3vmax) scale(0.96) rotate(-2deg); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+
+    /* Particles canvas for microscopic motion */
+    canvas#particles { position: absolute; inset: 0; opacity: .25; }
+
+    /* ---------- Header / Hero ---------- */
+    .site-header {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: saturate(150%) blur(14px);
+      background: rgba(var(--surface), .35);
+      border-bottom: 1px solid rgba(255,255,255,.45);
+    }
+    .navwrap { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .5px; }
+    .logo {
+      width: 40px; height: 40px; border-radius: 12px; flex: 0 0 auto;
+      background: conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand-2), var(--bg-3), var(--brand));
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.6), var(--card-shadow);
+    }
+    .nav-cta a {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      color: #fff; padding: 10px 16px; border-radius: 999px; font-weight: 600;
+      transition: transform .2s ease, box-shadow .2s ease; box-shadow: var(--card-shadow);
+    }
+    .nav-cta a:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 14px 28px rgba(0,0,0,.12); }
+
+    .hero { text-align: center; padding: clamp(36px, 5vw, 64px) 0 8px; }
+    .hero h1 { font-size: clamp(28px, 4.2vw, 48px); margin: 8px 0 12px; line-height: 1.15; }
+    .hero p { font-size: clamp(14px, 2.2vw, 18px); color: rgb(var(--muted)); margin: 0; }
+
+    /* decorative wave */
+    .wave { display: block; width: 100%; height: 48px; margin-top: 16px; }
+
+    /* ---------- Sections ---------- */
+    section { padding: clamp(28px, 5vw, 52px) 0; position: relative; }
+
+    /* Product grid */
+    .product-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px; margin-top: 18px;
+    }
+
+    .card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      background: rgba(var(--surface), .65);
+      backdrop-filter: blur(10px) saturate(140%);
+      box-shadow: var(--card-shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+      border: 1px solid rgba(255,255,255,.55);
+      outline: 1px solid rgba(0,0,0,.04);
+    }
+    .card::before { /* animated border sheen */
+      content: ""; position: absolute; inset: -1px; border-radius: inherit;
+      padding: 1px; background: linear-gradient(120deg, rgba(255,255,255,.9), rgba(255,255,255,0), rgba(255,255,255,.9));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: sheen 4s linear infinite;
+      opacity: .45;
+    }
+    @keyframes sheen { to { transform: translateX(10%); } }
+
+    .card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 36px rgba(0,0,0,.14); }
+
+    .card img { aspect-ratio: 4/5; object-fit: cover; }
+    .card .content { padding: 14px 14px 16px; }
+    .card h3 { margin: 6px 0; font-size: 20px; }
+    .meta { color: rgb(var(--muted)); font-size: 13px; }
+    .price { font-weight: 700; margin: 8px 0 10px; font-size: 18px; }
+
+    .tags { position: absolute; top: 10px; left: 10px; display: flex; gap: 8px; }
+    .tag { font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 999px; color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
+    .tag--new { background: linear-gradient(90deg, #ff6b6b, #ffa36c); }
+    .tag--best { background: linear-gradient(90deg, #00c9a7, #17a2b8); }
+
+    .actions { display: flex; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 14px; border: 0; border-radius: 12px; font-weight: 600; cursor: pointer;
+      transition: transform .15s ease, box-shadow .2s ease; box-shadow: var(--card-shadow);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn--whatsapp { background: var(--accent); color: #fff; }
+    .btn--ghost { background: rgba(0,0,0,.04); }
+
+    /* QR & Contact */
+    .panel {
+      background: rgba(var(--surface), .7); border: 1px solid rgba(255,255,255,.6);
+      backdrop-filter: blur(10px) saturate(150%);
+      border-radius: var(--radius); padding: 20px; box-shadow: var(--card-shadow);
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; align-items: center; }
+
+    .contact p { margin: 6px 0; color: rgb(var(--muted)); }
+
+    footer { text-align: center; padding: 26px 0 42px; color: rgb(var(--muted)); }
+
+    /* Floating Chat & Top Button */
+    .fab {
+      position: fixed; bottom: 18px; right: 18px; display: grid; gap: 12px; z-index: 20;
+    }
+    .fab a, .fab button {
+      width: 52px; height: 52px; border-radius: 50%; border: 0; cursor: pointer; box-shadow: var(--card-shadow);
+      display: inline-flex; align-items: center; justify-content: center; background: #fff; transition: transform .15s ease;
+    }
+    .fab a:hover, .fab button:hover { transform: translateY(-2px); }
+
+    .theme-toggle { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(10px) scale(.98); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); transition: opacity .6s ease, transform .6s ease; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .bg-gradient, .blob, .card::before { animation: none !important; }
+      .card, .btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background stack -->
+  <div class="bg-stack" aria-hidden="true">
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <canvas id="particles"></canvas>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navwrap">
+      <div class="brand" aria-label="Aazhi Vastralaya">
+        <div class="logo" role="img" aria-label="Aazhi logo"></div>
+        <span>Aazhi Vastralaya</span>
+      </div>
+      <div class="nav-cta">
+        <a href="#shop" aria-label="Shop now">Shop now →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <h1>Ethnic Wear for Every Occasion</h1>
+    <p>Handpicked kurtis & sets with breezy fabrics, modern fits and everyday prices.</p>
+    <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,32 C240,80 480,0 720,32 C960,64 1200,16 1440,48 L1440,80 L0,80 Z" fill="rgba(255,255,255,.6)"></path>
+    </svg>
+  </section>
+
+  <!-- Products -->
+  <section id="shop" class="container">
+    <h2 style="margin:0 0 8px">New & Popular</h2>
+    <p style="margin:0; color: rgb(var(--muted));">Tap a product to order directly on WhatsApp.</p>
+
+    <div class="product-grid">
+      <!-- Card 1 -->
+      <article class="card reveal" data-product="Palazzo Set" data-price="350">
+        <span class="tags"><span class="tag tag--best">Best Price</span></span>
+        <img src="https://via.placeholder.com/560x700.png?text=Palazzo+Set" alt="Palazzo set in breathable cotton" loading="lazy">
+        <div class="content">
+          <h3>Palazzo Set</h3>
+          <div class="meta">Cotton · Sizes: M, L, XL, XXL</div>
+          <div class="price">₹350</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card reveal" data-product="Straight Kurti" data-price="299">
+        <span class="tags"><span class="tag tag--new">New</span></span>
+        <img src="https://via.placeholder.com/560x700.png?text=Straight+Kurti" alt="Straight kurti in rayon" loading="lazy">
+        <div class="content">
+          <h3>Straight Kurti</h3>
+          <div class="meta">Rayon · Sizes: M, L, XL</div>
+          <div class="price">₹299</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card reveal" data-product="Anarkali Kurti" data-price="499">
+        <img src="https://via.placeholder.com/560x700.png?text=Anarkali+Kurti" alt="Anarkali kurti in cotton blend" loading="lazy">
+        <div class="content">
+          <h3>Anarkali Kurti</h3>
+          <div class="meta">Cotton Blend · Sizes: L, XL, XXL</div>
+          <div class="price">₹499</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card reveal" data-product="Flared Kurti" data-price="399">
+        <img src="https://via.placeholder.com/560x700.png?text=Flared+Kurti" alt="Flared kurti in georgette" loading="lazy">
+        <div class="content">
+          <h3>Flared Kurti</h3>
+          <div class="meta">Georgette · Sizes: S, M, L</div>
+          <div class="price">₹399</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="card reveal" data-product="Printed Kurti" data-price="329">
+        <img src="https://via.placeholder.com/560x700.png?text=Printed+Kurti" alt="Printed cotton kurti" loading="lazy">
+        <div class="content">
+          <h3>Printed Kurti</h3>
+          <div class="meta">Cotton Print · Sizes: M, L, XL</div>
+          <div class="price">₹329</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="card reveal" data-product="Designer Kurti" data-price="599">
+        <img src="https://via.placeholder.com/560x700.png?text=Designer+Kurti" alt="Designer silk-blend kurti" loading="lazy">
+        <div class="content">
+          <h3>Designer Kurti</h3>
+          <div class="meta">Silk Blend · Sizes: M, L</div>
+          <div class="price">₹599</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article class="card reveal" data-product="Long Kurti" data-price="449">
+        <img src="https://via.placeholder.com/560x700.png?text=Long+Kurti" alt="Long kurti in linen" loading="lazy">
+        <div class="content">
+          <h3>Long Kurti</h3>
+          <div class="meta">Linen · Sizes: M, L, XL, XXL</div>
+          <div class="price">₹449</div>
+          <div class="actions">
+            <button class="btn btn--whatsapp" data-action="wa">Buy on WhatsApp</button>
+            <button class="btn btn--ghost" data-action="details">Details</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Payments & Contact -->
+  <section class="container">
+    <div class="grid-2">
+      <div class="panel reveal">
+        <h3 style="margin-top:0">Scan to Pay</h3>
+        <img src=""C:\Users\317083\Downloads\AVB\GooglePay_QR.png"?text=UPI+QR+Code" alt="UPI QR code for Aazhi Vastralaya payments" style="width:180px; margin-top:10px; border-radius:12px; border:1px solid rgba(0,0,0,.06);" />
+        <p style="color: rgb(var(--muted)); margin-top:10px;">We accept UPI. Show the payment screen to our team on WhatsApp to confirm your order.</p>
+      </div>
+      <div class="panel contact reveal">
+        <h3 style="margin-top:0">Contact Us</h3>
+        <p><strong>Phone:</strong> <a href="tel:+916000435678">+91 6380688448</a></p>
+        <p><strong>Address:</strong> 102/40A, West street,Hasthampatti, Salem – 636007</p>
+        <p><strong>Email:</strong> <a href="mailto:akbusiness5353@gmail.com">akbusiness5353@gmail.com</a></p>
+        <div style="margin-top:10px">
+          <a class="btn btn--whatsapp" href="https://wa.me/916000435678?text=Hi!%20I%20have%20a%20question%20about%20your%20products" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">Thank you for shopping with Aazhi Vastralaya!</div>
+  </footer>
+
+  <!-- Floating actions -->
+  <div class="fab" aria-label="Quick actions">
+    <a class="whatsapp" href="https://wa.me/916000435678" target="_blank" rel="noopener" aria-label="Open WhatsApp chat" title="Chat on WhatsApp">
+      <!-- WhatsApp Icon -->
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.52 3.48A11.84 11.84 0 0 0 12.02.5C5.73.5.64 5.57.64 11.86c0 2.01.52 3.99 1.51 5.73L.5 23.5l6.08-1.59a11.33 11.33 0 0 0 5.43 1.39h.01c6.29 0 11.38-5.07 11.38-11.36 0-3.03-1.18-5.89-3.22-8.02Zm-8.5 18.2a9.43 9.43 0 0 1-4.8-1.31l-.34-.2-3.61.95.97-3.52-.22-.36a9.34 9.34 0 0 1-1.46-5.03c0-5.2 4.24-9.43 9.45-9.43 2.52 0 4.89.98 6.67 2.76a9.33 9.33 0 0 1 2.77 6.66c0 5.2-4.25 9.43-9.45 9.43Zm5.18-7.06c-.28-.14-1.64-.81-1.9-.9-.26-.1-.45-.14-.64.13-.19.27-.73.9-.89 1.08-.16.18-.33.2-.61.07-.28-.14-1.17-.43-2.23-1.38-.83-.74-1.39-1.65-1.55-1.93-.16-.27-.02-.41.12-.54.12-.12.27-.33.4-.5.13-.17.18-.28.28-.47.09-.2.04-.36-.02-.5-.06-.13-.64-1.54-.87-2.1-.22-.53-.45-.46-.64-.47l-.55-.01c-.2 0-.5.07-.76.36-.26.27-1 1-1 2.43 0 1.43 1.03 2.8 1.18 2.99.14.19 2.04 3.12 4.95 4.25.69.28 1.23.45 1.65.58.69.22 1.32.19 1.82.11.56-.08 1.64-.67 1.87-1.31.23-.64.23-1.19.16-1.31-.06-.12-.25-.2-.53-.34Z" fill="currentColor"/></svg>
+    </a>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">🎨</button>
+    <button id="toTop" aria-label="Back to top" title="Back to top">↑</button>
+  </div>
+
+  <script>
+    // -------- WhatsApp deep links --------
+    const waPhone = '916380688448';
+    document.querySelectorAll('[data-action="wa"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.currentTarget.closest('[data-product]');
+        const name = card?.dataset.product || 'Product';
+        const price = card?.dataset.price ? ` (₹${card.dataset.price})` : '';
+        const txt = encodeURIComponent(`I want to buy ${name}${price} from Aazhi Vastralaya`);
+        window.open(`https://wa.me/${waPhone}?text=${txt}`, '_blank');
+      });
+    });
+
+    // Mock details modal (simple alert for now)
+    document.querySelectorAll('[data-action="details"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.currentTarget.closest('[data-product]');
+        const name = card?.dataset.product || 'Product';
+        alert(`${name} — fabric & size details are customizable. Message us on WhatsApp to know more!`);
+      });
+    });
+
+    // -------- Reveal on scroll --------
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { threshold: .08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // -------- Theme toggle --------
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      const calm = document.body.getAttribute('data-theme') === 'calm';
+      document.body.setAttribute('data-theme', calm ? '' : 'calm');
+      toggle.textContent = calm ? '🎨' : '🌈';
+    });
+
+    // -------- Back to top --------
+    const toTop = document.getElementById('toTop');
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // -------- Particles (respect reduced motion) --------
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) initParticles();
+
+    function initParticles(){
+      const c = document.getElementById('particles');
+      const ctx = c.getContext('2d');
+      let w, h, dpr, particles;
+
+      function resize(){
+        dpr = Math.max(1, window.devicePixelRatio || 1);
+        w = c.width = Math.floor(innerWidth * dpr);
+        h = c.height = Math.floor(innerHeight * dpr);
+        c.style.width = innerWidth + 'px';
+        c.style.height = innerHeight + 'px';
+        spawn();
+      }
+
+      function spawn(){
+        const count = Math.floor((innerWidth * innerHeight) / 26000); // adaptive density
+        particles = new Array(count).fill(0).map(() => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: (Math.random() * 1.2 + 0.6) * dpr,
+          a: Math.random() * Math.PI * 2,
+          v: (Math.random() * 0.3 + 0.05) * dpr,
+          o: Math.random() * 0.5 + 0.2,
+        }));
+      }
+
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        ctx.globalCompositeOperation = 'lighter';
+        particles.forEach(p => {
+          p.x += Math.cos(p.a) * p.v; p.y += Math.sin(p.a) * p.v;
+          p.a += (Math.random() - 0.5) * 0.02; // meander
+          if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+          ctx.globalAlpha = p.o;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+        });
+        requestAnimationFrame(step);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+      step();
+    }
+  </script>
+</body>
+</html>
