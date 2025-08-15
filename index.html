@@ -69,7 +69,7 @@
     .hero p{font-size:clamp(14px,2.2vw,18px); color:rgb(var(--muted)); margin:0}
     .wave{display:block; width:100%; height:48px; margin-top:12px}
 
-    /* ---------- Myntra-like Toolbar ---------- */
+    /* ---------- Toolbar ---------- */
     .toolbar{position:sticky; top:64px; z-index:9; backdrop-filter:saturate(150%) blur(10px);
       background:rgba(var(--surface),.6); border:1px solid rgba(255,255,255,.55); border-radius:14px;
       box-shadow:var(--card-shadow); padding:8px; display:flex; gap:8px; flex-wrap:wrap}
@@ -79,7 +79,7 @@
       cursor:pointer}
     .chip[aria-pressed="true"]{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff; border-color:transparent}
 
-    /* ---------- Product Listing (PLP) ---------- */
+    /* ---------- Product Listing ---------- */
     section{padding:clamp(22px,4.5vw,40px) 0; position:relative}
     .plp-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
     @media (min-width:680px){ .plp-grid{grid-template-columns:repeat(3,1fr)} }
@@ -94,17 +94,15 @@
     .badge-row{position:absolute; top:8px; left:8px; display:flex; gap:6px; z-index:2}
     .badge{font-size:11px; font-weight:700; padding:6px 8px; border-radius:999px; color:#fff;
       text-shadow:0 1px 0 rgba(0,0,0,.15); background:linear-gradient(90deg,#ff6b6b,#ffa36c)}
-    .wish{position:absolute; top:8px; right:8px; z-index:2; width:34px; height:34px; border-radius:50%;
-      display:grid; place-items:center; background:rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.06); cursor:pointer}
-    .wish.is-on{color:#ff4d6d}
     .pricebar{position:absolute; bottom:8px; left:8px; right:8px; display:flex; align-items:center; justify-content:space-between;
       padding:8px 10px; border-radius:12px; background:rgba(255,255,255,.92); font-weight:700}
-    .add{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; background:var(--brand); color:#fff;
-      font-weight:700; border:0; cursor:pointer}
+    .btn-mini{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:0; cursor:pointer; font-weight:700}
+    .btn-buy{background:var(--brand); color:#fff}
+    .btn-add{background:rgba(0,0,0,.80); color:#fff}
     .tile .meta{padding:8px 10px 10px; font-size:13px; color:rgb(var(--muted))}
     .tile h3{margin:6px 10px 0; font-size:15px}
 
-    /* Toast + Checkout FAB */
+    /* Toast + FAB */
     .toast{position:fixed; left:50%; transform:translateX(-50%); bottom:88px; background:#111; color:#fff; padding:10px 14px;
       border-radius:12px; opacity:0; pointer-events:none; transition:.25s opacity, .25s transform}
     .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px)}
@@ -113,7 +111,6 @@
       display:inline-flex; align-items:center; justify-content:center; background:#fff; transition:transform .15s ease}
     .fab a:hover, .fab button:hover{transform:translateY(-2px)}
     .theme-toggle{background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff}
-
     footer{text-align:center; padding:26px 0 42px; color:rgb(var(--muted))}
 
     @media (prefers-reduced-motion: reduce){
@@ -165,18 +162,19 @@
       <button class="chip" data-filter="Best">Best Price</button>
     </div>
 
-    <!-- PLP Grid -->
+    <!-- Product Grid -->
     <div class="plp-grid" id="grid">
-
       <!-- Tile 1 -->
       <article class="tile" data-product="Palazzo Set" data-price="350" data-tags="Best,Cotton" data-material="Cotton">
         <figure>
           <div class="badge-row"><span class="badge">Best</span></div>
-          <button class="wish" aria-label="Add to wishlist" title="Wishlist">♡</button>
           <img src="Kurtis_g.jpg" alt="Palazzo Set in cotton, sizes M-XXL" loading="lazy">
           <div class="pricebar">
             <span>₹350</span>
-            <button class="add" data-add>Add</button>
+            <div style="display:flex; gap:8px">
+              <button class="btn-mini btn-buy" data-buy>Buy</button>
+              <button class="btn-mini btn-add" data-add>Add</button>
+            </div>
           </div>
         </figure>
         <h3>Palazzo Set</h3>
@@ -187,11 +185,13 @@
       <article class="tile" data-product="Straight Kurti" data-price="350" data-tags="New,Cotton" data-material="Cotton">
         <figure>
           <div class="badge-row"><span class="badge">New</span></div>
-          <button class="wish" aria-label="Add to wishlist" title="Wishlist">♡</button>
           <img src="Kurtis_v.jpg" alt="Straight kurti in cotton, sizes M-XL" loading="lazy">
           <div class="pricebar">
             <span>₹350</span>
-            <button class="add" data-add>Add</button>
+            <div style="display:flex; gap:8px">
+              <button class="btn-mini btn-buy" data-buy>Buy</button>
+              <button class="btn-mini btn-add" data-add>Add</button>
+            </div>
           </div>
         </figure>
         <h3>Straight Kurti</h3>
@@ -201,11 +201,13 @@
       <!-- Tile 3 -->
       <article class="tile" data-product="Palazzo Set" data-price="380" data-tags="Blend" data-material="Cotton Blend">
         <figure>
-          <button class="wish" aria-label="Add to wishlist" title="Wishlist">♡</button>
           <img src="Palazzoset_b.jpg" alt="Palazzo set in cotton blend, sizes L-XXL" loading="lazy">
           <div class="pricebar">
             <span>₹380</span>
-            <button class="add" data-add>Add</button>
+            <div style="display:flex; gap:8px">
+              <button class="btn-mini btn-buy" data-buy>Buy</button>
+              <button class="btn-mini btn-add" data-add>Add</button>
+            </div>
           </div>
         </figure>
         <h3>Palazzo Set</h3>
@@ -215,11 +217,13 @@
       <!-- Tile 4 -->
       <article class="tile" data-product="Palazzo Set" data-price="380" data-tags="Cotton" data-material="Cotton">
         <figure>
-          <button class="wish" aria-label="Add to wishlist" title="Wishlist">♡</button>
           <img src="Palazzoset_g.jpg" alt="Palazzo set in cotton, sizes S-L" loading="lazy">
           <div class="pricebar">
             <span>₹380</span>
-            <button class="add" data-add>Add</button>
+            <div style="display:flex; gap:8px">
+              <button class="btn-mini btn-buy" data-buy>Buy</button>
+              <button class="btn-mini btn-add" data-add>Add</button>
+            </div>
           </div>
         </figure>
         <h3>Palazzo Set</h3>
@@ -229,17 +233,18 @@
       <!-- Tile 5 -->
       <article class="tile" data-product="Palazzo Set (Print)" data-price="380" data-tags="Cotton" data-material="Cotton Print">
         <figure>
-          <button class="wish" aria-label="Add to wishlist" title="Wishlist">♡</button>
           <img src="palazzoset_g1.jpg" alt="Printed palazzo set, sizes M-XL" loading="lazy">
           <div class="pricebar">
             <span>₹380</span>
-            <button class="add" data-add>Add</button>
+            <div style="display:flex; gap:8px">
+              <button class="btn-mini btn-buy" data-buy>Buy</button>
+              <button class="btn-mini btn-add" data-add>Add</button>
+            </div>
           </div>
         </figure>
         <h3>Palazzo Set (Print)</h3>
         <div class="meta">Cotton Print · Sizes: M, L, XL</div>
       </article>
-
     </div>
   </section>
 
@@ -257,7 +262,7 @@
         <p><strong>Address:</strong> 102/40A, West street, Hasthampatti, Salem – 636007</p>
         <p><strong>Email:</strong> <a href="mailto:akbusiness5353@gmail.com">akbusiness5353@gmail.com</a></p>
         <div style="margin-top:10px">
-          <a class="add" href="https://wa.me/916380688448?text=Hi!%20I%20have%20a%20question%20about%20your%20products" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          <a class="btn-mini btn-buy" href="https://wa.me/916380688448?text=Hi!%20I%20have%20a%20question%20about%20your%20products" target="_blank" rel="noopener">Chat on WhatsApp</a>
         </div>
       </div>
     </div>
@@ -279,7 +284,7 @@
     const waPhone = '916380688448';   // WhatsApp number (no +)
     const currency = '₹';
 
-    /* ========= Search + Filter (toolbar) ========= */
+    /* ========= Search + Filter ========= */
     const chips = document.querySelectorAll('.chip');
     const search = document.getElementById('search');
     const grid = document.getElementById('grid');
@@ -287,7 +292,6 @@
     function applyFilters(){
       const active = [...chips].find(c => c.getAttribute('aria-pressed') === 'true')?.dataset.filter || 'All';
       const term = search.value.trim().toLowerCase();
-
       grid.querySelectorAll('.tile').forEach(card => {
         const text = (card.dataset.product + ' ' + (card.dataset.material||'') + ' ' + (card.dataset.tags||'')).toLowerCase();
         const tagOk = (active === 'All') || (card.dataset.tags || '').includes(active) || (card.dataset.material||'').includes(active);
@@ -295,22 +299,12 @@
         card.style.display = show ? '' : 'none';
       });
     }
-
     chips.forEach(c => c.addEventListener('click', () => {
       chips.forEach(x => x.setAttribute('aria-pressed','false'));
       c.setAttribute('aria-pressed','true');
       applyFilters();
     }));
     search.addEventListener('input', applyFilters);
-
-    /* ========= Wishlist toggle ========= */
-    document.querySelectorAll('.wish').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        btn.classList.toggle('is-on');
-        btn.textContent = btn.classList.contains('is-on') ? '❤' : '♡';
-      });
-    });
 
     /* ========= Cart ========= */
     const cart = [];
@@ -322,9 +316,7 @@
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 1500);
     }
-    function updateCount(){
-      cartCount.textContent = cart.reduce((n,i)=>n+i.qty,0);
-    }
+    function updateCount(){ cartCount.textContent = cart.reduce((n,i)=>n+i.qty,0); }
     function addToCart(card){
       const name = card.dataset.product;
       const price = Number(card.dataset.price||0);
@@ -333,32 +325,35 @@
       updateCount(); showToast();
     }
 
-    /* Quick Add buttons */
+    /* ========= Button wiring ========= */
+    // ADD buttons
     document.querySelectorAll('[data-add]').forEach(btn => {
       btn.addEventListener('click', e => {
         e.stopPropagation();
-        const card = e.currentTarget.closest('.tile');
-        addToCart(card);
+        addToCart(e.currentTarget.closest('.tile'));
       });
     });
 
-    /* Click any tile = Buy now on WhatsApp for that single product */
-    grid.querySelectorAll('.tile').forEach(card => {
-      card.addEventListener('click', e => {
-        // ignore clicks on inner controls
-        if(e.target.closest('.add') || e.target.closest('.wish')) return;
-        const name = card.dataset.product;
+    // BUY buttons -> WhatsApp deep link
+    document.querySelectorAll('[data-buy]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const card = e.currentTarget.closest('.tile');
+        const name = card.dataset.product || 'Product';
         const price = card.dataset.price ? ` (₹${card.dataset.price})` : '';
         const txt = encodeURIComponent(`I want to buy ${name}${price} from Aazhi Vastralaya`);
         window.open(`https://wa.me/${waPhone}?text=${txt}`, '_blank');
       });
     });
 
+    // (Optional) clicking the image no longer buys; only the Buy button does.
+    grid.querySelectorAll('.tile img').forEach(img => {
+      img.style.cursor = 'default';
+    });
+
     /* ========= Checkout on WhatsApp (FAB) ========= */
     function openWhatsAppCart(){
-      if(cart.length === 0){
-        showToast('Your cart is empty'); return;
-      }
+      if(cart.length === 0){ showToast('Your cart is empty'); return; }
       const total = cart.reduce((sum,i)=>sum + i.price*i.qty, 0);
       const lines = cart.map(i => `• ${i.name} — ${currency}${i.price} × ${i.qty} = ${currency}${i.price*i.qty}`);
       const msg =
